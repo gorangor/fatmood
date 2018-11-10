@@ -42,7 +42,6 @@ class Food():
             screen.blit(pygame.image.load(ingredient), (self.x - self.r, self.y - self.r))
 
 
-
 class Ingredient():
     def __init__(self, img):
         self.name = img
