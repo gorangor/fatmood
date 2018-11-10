@@ -1,5 +1,6 @@
 # Mckenna Brown
 import pygame
+from setup import *
 
 class Food():
     def __init__(self, ingredients):
@@ -9,9 +10,9 @@ class Food():
         self.recipe = ingredients  # a list. can have repeats
         # ordered. must be put on in this order
         self.ingredients = [self.recipe[0]]
-        self.x = -76
-        self.y = 495
-        self.r = -150
+        self.x = 66
+        self.y = 550
+        self.r = 66
 
 
     def addIngredient(self, ingredient):
@@ -27,7 +28,7 @@ class Food():
 
     def draw(self):
         for ingredient in self.ingredients:
-            screen.blit(ingredient.img, (self.x - self.r, self.y - self.r))
+            screen.blit(pygame.image.load(ingredient), (self.x - self.r, self.y - self.r))
 
 
 class Ingredient():
