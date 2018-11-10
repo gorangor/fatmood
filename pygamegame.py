@@ -6,8 +6,10 @@ class PygameGame(object):
 
     def init(self):
         self.burger = Food(["bun.png", "grease.png", "mushroom.png"])
+        self.currFood = self.burger
         self.state = "homeScreen"
         self.bkg = bkg
+        self.ingr = None
 
     def mousePressed(self, x, y):
         if self.state == "homeScreen":
@@ -16,18 +18,34 @@ class PygameGame(object):
             elif 123 < x < 372 and 529 < y < 610:
                 self.state = "play"
                 self.bkg = gamebkg
+                peachColor = (255, 189,140)
+                screen.fill(peachColor)
+                screen.blit(self.bkg,(0,0))
+
+        elif self.state == "play":
             screen.blit(bun,(0,0))
             screen.blit(patty,(0,0))
             screen.blit(mRoom,(10,10))
 
     def mouseReleased(self, x, y):
-        pass
+        self.ingr = None
 
     def mouseMotion(self, x, y):
         pass
 
     def mouseDrag(self, x, y):
-        pass
+        if self.ingr == None:
+            self.ingr = getIngrClick(x, y)
+            if self.ingr == None:
+                return  # no ingr clicked on
+        currFood = self.burger
+        currIngr = self.currFood.ingredients[-1]
+        r = currIngr.r
+        ingX = currIngr.x
+        ingY = currIngr.y
+        if dragged to bun:
+            do stuff
+
 
     def keyPressed(self, keyCode, modifier):
         pass
@@ -65,12 +83,9 @@ class PygameGame(object):
 
         # call game-specific initialization
         self.init()
-        # screen.blit(self.bkg,(0,0))
+        screen.blit(self.bkg,(0,0))
         playing = True
         while playing:
-            peachColor = (255, 189,140)
-            screen.fill(peachColor)
-            screen.blit(self.bkg,(0,0))
             time = clock.tick(self.fps)
             self.timerFired(time)
             for event in pygame.event.get():

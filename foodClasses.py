@@ -9,6 +9,9 @@ class Food():
         self.recipe = ingredients  # a list. can have repeats
         # ordered. must be put on in this order
         self.ingredients = [self.recipe[0]]
+        self.x = -76
+        self.y = 495
+        self.r = -150
 
 
     def addIngredient(self, ingredient):
@@ -22,9 +25,9 @@ class Food():
         self.x += dx
         self.y += dy
 
-    def draw(self, data):
+    def draw(self):
         for ingredient in self.ingredients:
-            screen.blit(ingredient.img, (self.x, self.y))
+            screen.blit(ingredient.img, (self.x - self.r, self.y - self.r))
 
 
 class Ingredient():
