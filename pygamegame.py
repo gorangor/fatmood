@@ -14,6 +14,8 @@ class PygameGame(object):
         self.toDraw[self.currFood] = self.currFood
         print("burger: ", self.toDraw[self.currFood])
         self.score = 0
+        self.bunSpeed = 15
+
 
     def mousePressed(self, x, y):
         if self.state == "homeScreen":
@@ -113,6 +115,7 @@ class PygameGame(object):
         while playing:
             time = clock.tick(self.fps)
             self.timerFired(time)
+
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     self.mousePressed(*(event.pos))
@@ -133,6 +136,16 @@ class PygameGame(object):
                 elif event.type == pygame.QUIT:
                     playing = False
             self.redrawAll(screen)
+            if self.state == "play":
+                self.burger.draw()
+                self.burger.move(self.bunSpeed, 0)
+                if self.burger.x >= 1350:
+                    if self.burger.ingredients == self.burger.recipe:
+                        self.score += 1
+                        self.bunSpeed += 2
+                    self.burger.draw()
+                    self.burger.ingredients = [self.burger.recipe[0]]
+                    self.burger.x = -100
             pygame.display.flip()
         pygame.quit()
 
