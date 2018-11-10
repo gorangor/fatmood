@@ -82,6 +82,8 @@ class PygameGame(object):
         pass
 
     def redrawAll(self, screen):
+        if self.score < 0:
+            self.init()
         peachColor = (255, 189,140)
         screen.fill(peachColor)
         for item in self.toDraw:
@@ -100,9 +102,12 @@ class PygameGame(object):
                 if self.burger.ingredients == self.burger.recipe:
                     self.score += 1
                     self.bunSpeed += 1
+                else:
+                    self.score -= 1
                 self.burger.draw()
                 self.burger.ingredients = [self.burger.recipe[0]]
                 self.burger.x = -100
+
             scoretext = pygame.font.SysFont("monospace", 100).\
             render("Score: " + str(self.score), 1, (0, 0, 0))
             screen.blit(scoretext, (750, 90))
