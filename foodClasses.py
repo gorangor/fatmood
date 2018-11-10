@@ -1,10 +1,10 @@
 # Mckenna Brown
 
 class Food():
-    def __init__(self, ingredients, data):
+    def __init__(self, ingredients):
         self.recipe = ingredients  # a list. can have repeats
         # ordered. must be put on in this order
-        self.ingredients = []
+        self.ingredients = [self.recipe[0]]
         self.x = data.currFoodX
         self.y = data.currFoodY
 
