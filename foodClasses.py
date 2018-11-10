@@ -39,8 +39,8 @@ class Food():
 
     def draw(self):
         for ingredient in self.ingredients:
-            # print(ingredient)
-            screen.blit(pygame.image.load(ingredient.name), (self.x - self.r, self.y - self.r))
+            screen.blit(pygame.image.load(ingredient.name), \
+            (self.x - self.r, self.y - self.r))
 
 
 class Ingredient():

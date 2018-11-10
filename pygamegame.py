@@ -15,9 +15,7 @@ class PygameGame(object):
         self.bkg = bkg
         self.ingr = None
         self.toDraw = dict()
-        # self.toDraw["background"] = self.bkg
         self.toDraw[self.currFood] = self.currFood
-        # print("burger: ", self.toDraw[self.currFood])
         self.score = 0
         self.bunSpeed = 5
 
@@ -50,12 +48,9 @@ class PygameGame(object):
         ingX = currFood.x
         ingY = currFood.y
         if ingX - r < x < ingX + r and ingY - r < y < ingY + r:
-            print("HELL YEAH")
             # drop it like it's hot
             # make sure it's the right ingredient:
-            print(currIngr, self.ingr)
             if currIngr == self.ingr:  # else you done fucked up
-                print("for sure")
                 self.currFood.ingredients.append(self.ingr)
             del self.toDraw[self.ingr]
             self.ingr = None
@@ -73,7 +68,6 @@ class PygameGame(object):
             if self.ingr == None:
                 return  # no ingr clicked on
         self.toDraw[self.ingr] = (self.ingr.name, (x - 33, y - 33))
-        # self.ingr.draw(x, y)
 
 
     def keyPressed(self, keyCode, modifier):
@@ -86,11 +80,9 @@ class PygameGame(object):
         pass
 
     def redrawAll(self, screen):
-        # print(self.toDraw)
         peachColor = (255, 189,140)
         screen.fill(peachColor)
         for item in self.toDraw:
-            # print(item)
             if not isinstance(self.toDraw[item], tuple):
                 # has its own draw function
                 item.draw()
@@ -109,14 +101,13 @@ class PygameGame(object):
                 self.burger.draw()
                 self.burger.ingredients = [self.burger.recipe[0]]
                 self.burger.x = -100
-            scoretext = pygame.font.SysFont("monospace", 100).render("Score: " + str(self.score), 1, (0, 0, 0))
+            scoretext = pygame.font.SysFont("monospace", 100).\
+            render("Score: " + str(self.score), 1, (0, 0, 0))
             screen.blit(scoretext, (750, 90))
-        # self.toDraw[self.ingr] = (self.ingr.name, (x, y))
         # draw draggable last:
         if self.ingr == None: return
         img = pygame.image.load(self.ingr.name)
         screen.blit(img, coords)
-        # screen.draw.text("Score: " + str(self.score), (400, 400), color="black")
 
     def isKeyPressed(self, key):
         ''' return whether a specific key is being held '''
@@ -142,9 +133,7 @@ class PygameGame(object):
 
         # call game-specific initialization
         self.init()
-        # screen.blit(self.bkg,(0,0))
-        self.toDraw[bkg] = (self.bkg,(0,0))  # NOT THE PROBLEM
-        # print("should be a tuple: ", self.toDraw[bkg])
+        self.toDraw[bkg] = (self.bkg,(0,0))
         playing = True
         while playing:
             time = clock.tick(self.fps)
