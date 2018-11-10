@@ -1,18 +1,25 @@
-'''
-pygamegame.py
-created by Lukas Peraza
-'''
 import pygame
 from setup import *
-
+from foodClasses import *
 
 class PygameGame(object):
 
     def init(self):
-        pass
+        self.burger = Food(["bun.png", "grease.png", "mushroom.png"])
+        self.state = "homeScreen"
+        self.bkg = bkg
+        self.score = 0
+        self.bunSpeed = 15
 
     def mousePressed(self, x, y):
-        pass
+        print(x,y)
+        if self.state == "homeScreen":
+            if 123 < x < 372 and 617 < y < 698:
+                pass # draw instructions
+            elif 123 < x < 372 and 529 < y < 610:
+                self.state = "play"
+                self.bkg = gamebkg
+
 
     def mouseReleased(self, x, y):
         pass
@@ -53,17 +60,30 @@ class PygameGame(object):
         screen = pygame.display.set_mode((self.width, self.height))
         # set the title of the window
         pygame.display.set_caption(self.title)
+
         # stores all the keys currently being held down
         self._keys = dict()
 
         # call game-specific initialization
         self.init()
-        screen.blit(gamebkg, (0,0))
-
+        # screen.blit(self.bkg,(0,0))
         playing = True
         while playing:
+            peachColor = (255, 189,140)
+            screen.fill(peachColor)
+            screen.blit(self.bkg,(0,0))
             time = clock.tick(self.fps)
             self.timerFired(time)
+            if self.state == "play":
+                self.burger.draw()
+                self.burger.move(self.bunSpeed, 0)
+                if self.burger.x >= 1350:
+                    if self.burger.ingredients == self.burger.recipe:
+                        self.score += 1
+                        self.bunSpeed += 2
+                    self.burger.draw()
+                    self.burger.ingredients = [self.burger.recipe[0]]
+                    self.burger.x = -100
             for event in pygame.event.get():
                 if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                     self.mousePressed(*(event.pos))
@@ -83,10 +103,8 @@ class PygameGame(object):
                     self.keyReleased(event.key, event.mod)
                 elif event.type == pygame.QUIT:
                     playing = False
-            screen.fill(self.bgColor)
             self.redrawAll(screen)
             pygame.display.flip()
-
         pygame.quit()
 
 
