@@ -66,7 +66,6 @@ class PygameGame(object):
     def mouseDrag(self, x, y):
         if self.ingr == None:
             self.ingr = IngredientclickedOn(None, None)
-            # getIngrClick(x, y)
             if self.ingr == None:
                 return  # no ingr clicked on
         self.toDraw[self.ingr] = (self.ingr.name, (x - 33, y - 33))
@@ -84,6 +83,7 @@ class PygameGame(object):
     def redrawAll(self, screen):
         if self.score < 0:
             self.init()
+            self.toDraw[bkg] = (self.bkg,(0,0))
         peachColor = (255, 189,140)
         screen.fill(peachColor)
         for item in self.toDraw:
