@@ -7,7 +7,8 @@ class PygameGame(object):
 
     def init(self):
         pygame.font.init()
-        self.burger = Food(["bun.png", "greaseblob.png", "mushroom.png"])
+        self.burger = Food(["bun.png", "greaseblob.png", "patty.png", "mushroom.png",\
+         "cheese.png", "tomato.png", "fries.png", "lettuce.png"])
         self.currFood = self.burger
         self.state = "homeScreen"
         self.bkg = bkg
@@ -17,7 +18,7 @@ class PygameGame(object):
         self.toDraw[self.currFood] = self.currFood
         # print("burger: ", self.toDraw[self.currFood])
         self.score = 0
-        self.bunSpeed = 15
+        self.bunSpeed = 5
 
 
     def mousePressed(self, x, y):
@@ -51,7 +52,9 @@ class PygameGame(object):
             print("HELL YEAH")
             # drop it like it's hot
             # make sure it's the right ingredient:
+            print(currIngr, self.ingr)
             if currIngr == self.ingr:  # else you done fucked up
+                print("for sure")
                 self.currFood.ingredients.append(self.ingr)
             del self.toDraw[self.ingr]
             self.ingr = None
@@ -101,7 +104,7 @@ class PygameGame(object):
             if self.burger.x >= 1350:
                 if self.burger.ingredients == self.burger.recipe:
                     self.score += 1
-                    self.bunSpeed += 2
+                    self.bunSpeed += 1
                 self.burger.draw()
                 self.burger.ingredients = [self.burger.recipe[0]]
                 self.burger.x = -100
