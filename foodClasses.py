@@ -10,7 +10,7 @@ class Food():
         self.recipe = ingredients  # a list. can have repeats
         # ordered. must be put on in this order
         self.ingredients = [self.recipe[0]]
-        self.x = 66
+        self.x = -100
         self.y = 550
         self.r = 66
 
