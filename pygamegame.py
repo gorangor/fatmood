@@ -1,16 +1,24 @@
 import pygame
 from setup import *
+from foodClasses import *
 
 class PygameGame(object):
 
     def init(self):
-        pass
+        self.burger = Food(["bun.png", "grease.png", "mushroom.png"])
+        self.state = "homeScreen"
+        self.bkg = bkg
 
     def mousePressed(self, x, y):
-        screen.blit(bun,(0,0))
-        screen.blit(patty,(0,0))
-        screen.blit(mRoom,(10,10))
-        pass
+        if self.state == "homeScreen":
+            if 123 < x < 372 and 617 < y < 698:
+                pass # draw instructions
+            elif 123 < x < 372 and 529 < y < 610:
+                self.state = "play"
+                self.bkg = gamebkg
+            screen.blit(bun,(0,0))
+            screen.blit(patty,(0,0))
+            screen.blit(mRoom,(10,10))
 
     def mouseReleased(self, x, y):
         pass
@@ -57,9 +65,12 @@ class PygameGame(object):
 
         # call game-specific initialization
         self.init()
-        screen.blit(bkg,(0,0))
+        # screen.blit(self.bkg,(0,0))
         playing = True
         while playing:
+            peachColor = (255, 189,140)
+            screen.fill(peachColor)
+            screen.blit(self.bkg,(0,0))
             time = clock.tick(self.fps)
             self.timerFired(time)
             for event in pygame.event.get():

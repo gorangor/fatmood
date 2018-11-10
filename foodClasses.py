@@ -1,12 +1,14 @@
 # Mckenna Brown
+import pygame
 
 class Food():
     def __init__(self, ingredients):
+        self.recipe = []
+        for ingr in ingredients:
+            self.recipe.append(Ingredient(ingr))
         self.recipe = ingredients  # a list. can have repeats
         # ordered. must be put on in this order
         self.ingredients = [self.recipe[0]]
-        self.x = data.currFoodX
-        self.y = data.currFoodY
 
 
     def addIngredient(self, ingredient):
