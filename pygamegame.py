@@ -36,7 +36,9 @@ class PygameGame(object):
             # screen.blit(bun,(0,0))
             # screen.blit(patty,(0,0))
             # screen.blit(mRoom,(10,10))
-            pass
+            if x > 1200 and y < 100:
+                self.init()
+                self.toDraw[bkg] = (self.bkg,(0,0))
 
     def mouseReleased(self, x, y):
         if self.ingr == None:
