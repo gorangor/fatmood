@@ -1,6 +1,7 @@
 # Goal is to make dragging ingredient, turning it upside down, and putting it on conveyer belt. Generate an image get filenmae for image, return an Iengredient(image)
 
 import pygame
+from foodClasses import *
 
 def IngredientclickedOn(event, data): # update the third to sixth ingredients w/
                                       # correct file name once completed
@@ -18,7 +19,7 @@ def IngredientclickedOn(event, data): # update the third to sixth ingredients w/
 
     elif 778 < pygame.mouse.get_pos()[0] < 912 and \
     270 < pygame.mouse.get_pos()[1] < 411:
-        return Ingredient("tomatoe.png")
+        return Ingredient("tomato.png")
 
     elif 942 < pygame.mouse.get_pos()[0] < 1081 and \
     270 < pygame.mouse.get_pos()[1] < 411:

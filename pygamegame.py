@@ -1,18 +1,21 @@
 import pygame
 from setup import *
 from foodClasses import *
+from dragstuff import *
 
 class PygameGame(object):
 
     def init(self):
-        self.burger = Food(["bun.png", "grease.png", "mushroom.png"])
+        pygame.font.init()
+        self.burger = Food(["bun.png", "greaseblob.png", "mushroom.png"])
         self.currFood = self.burger
         self.state = "homeScreen"
         self.bkg = bkg
         self.ingr = None
         self.toDraw = dict()
+        # self.toDraw["background"] = self.bkg
         self.toDraw[self.currFood] = self.currFood
-        print("burger: ", self.toDraw[self.currFood])
+        # print("burger: ", self.toDraw[self.currFood])
         self.score = 0
         self.bunSpeed = 15
 
@@ -30,25 +33,30 @@ class PygameGame(object):
                 screen.blit(self.bkg,(0,0))
 
         elif self.state == "play":
-            screen.blit(bun,(0,0))
-            screen.blit(patty,(0,0))
-            screen.blit(mRoom,(10,10))
+            # screen.blit(bun,(0,0))
+            # screen.blit(patty,(0,0))
+            # screen.blit(mRoom,(10,10))
+            pass
 
     def mouseReleased(self, x, y):
         if self.ingr == None:
             return
         currFood = self.burger  #TODO generalize
-        currIngr = currFood.ingredients[-1]
-        r = currIngr.r
-        ingX = currIngr.x
-        ingY = currIngr.y
+        i = len(currFood.ingredients)
+        currIngr = currFood.recipe[i]
+        r = currFood.r
+        ingX = currFood.x
+        ingY = currFood.y
         if ingX - r < x < ingX + r and ingY - r < y < ingY + r:
+            print("HELL YEAH")
             # drop it like it's hot
             # make sure it's the right ingredient:
             if currIngr == self.ingr:  # else you done fucked up
                 self.currFood.ingredients.append(self.ingr)
+            del self.toDraw[self.ingr]
             self.ingr = None
             return
+        del self.toDraw[self.ingr]
         self.ingr = None
 
     def mouseMotion(self, x, y):
@@ -56,10 +64,11 @@ class PygameGame(object):
 
     def mouseDrag(self, x, y):
         if self.ingr == None:
-            self.ingr = getIngrClick(x, y)
+            self.ingr = IngredientclickedOn(None, None)
+            # getIngrClick(x, y)
             if self.ingr == None:
                 return  # no ingr clicked on
-        self.toDraw[self.ingr] = (self.ingr, (x, y))
+        self.toDraw[self.ingr] = (self.ingr.name, (x, y))
         # self.ingr.draw(x, y)
 
 
@@ -73,16 +82,35 @@ class PygameGame(object):
         pass
 
     def redrawAll(self, screen):
-        print(self.toDraw)
+        # print(self.toDraw)
+        peachColor = (255, 189,140)
+        screen.fill(peachColor)
         for item in self.toDraw:
-            print(item)
+            # print(item)
             if not isinstance(self.toDraw[item], tuple):
                 # has its own draw function
                 item.draw()
             else:
                 img = self.toDraw[item][0]
+                if type(img) == str: img = pygame.image.load(img)
                 coords = self.toDraw[item][1]
                 screen.blit(img, coords)
+        if self.state == "play":
+            self.burger.draw()
+            self.burger.move(self.bunSpeed, 0)
+            if self.burger.x >= 1350:
+                if self.burger.ingredients == self.burger.recipe:
+                    self.score += 1
+                    self.bunSpeed += 2
+                self.burger.draw()
+                self.burger.ingredients = [self.burger.recipe[0]]
+                self.burger.x = -100
+        # self.toDraw[self.ingr] = (self.ingr.name, (x, y))
+        # draw draggable last:
+        if self.ingr == None: return
+        img = pygame.image.load(self.ingr.name)
+        screen.blit(img, coords)
+        # screen.draw.text("Score: " + str(self.score), (400, 400), color="black")
 
     def isKeyPressed(self, key):
         ''' return whether a specific key is being held '''
@@ -110,7 +138,7 @@ class PygameGame(object):
         self.init()
         # screen.blit(self.bkg,(0,0))
         self.toDraw[bkg] = (self.bkg,(0,0))  # NOT THE PROBLEM
-        print("should be a tuple: ", self.toDraw[bkg])
+        # print("should be a tuple: ", self.toDraw[bkg])
         playing = True
         while playing:
             time = clock.tick(self.fps)
@@ -136,16 +164,6 @@ class PygameGame(object):
                 elif event.type == pygame.QUIT:
                     playing = False
             self.redrawAll(screen)
-            if self.state == "play":
-                self.burger.draw()
-                self.burger.move(self.bunSpeed, 0)
-                if self.burger.x >= 1350:
-                    if self.burger.ingredients == self.burger.recipe:
-                        self.score += 1
-                        self.bunSpeed += 2
-                    self.burger.draw()
-                    self.burger.ingredients = [self.burger.recipe[0]]
-                    self.burger.x = -100
             pygame.display.flip()
         pygame.quit()
 

@@ -9,7 +9,7 @@ class Food():
             self.recipe.append(Ingredient(ingr))
         # self.recipe = ingredients  # a list. can have repeats
         # ordered. must be put on in this order
-        self.ingredients = [self.recipe[0]]
+        self.ingredients = [self.recipe[0], self.recipe[1]]
         self.x = -100
         self.y = 550
         self.r = 66
@@ -47,6 +47,7 @@ class Ingredient():
     def __init__(self, img):
         self.name = img
         self.img = pygame.image.load(img)
+        self.r = 66
 
     def __eq__(self, other):
         if not isinstance(other, Ingredient):
