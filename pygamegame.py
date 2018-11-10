@@ -10,6 +10,10 @@ class PygameGame(object):
         self.state = "homeScreen"
         self.bkg = bkg
         self.ingr = None
+        self.toDraw = dict()
+        self.toDraw[self.currFood] = self.currFood
+        print("burger: ", self.toDraw[self.currFood])
+        self.score = 0
 
     def mousePressed(self, x, y):
         if self.state == "homeScreen":
@@ -18,6 +22,7 @@ class PygameGame(object):
             elif 123 < x < 372 and 529 < y < 610:
                 self.state = "play"
                 self.bkg = gamebkg
+                self.toDraw[bkg] = (gamebkg, (0, 0))
                 peachColor = (255, 189,140)
                 screen.fill(peachColor)
                 screen.blit(self.bkg,(0,0))
@@ -28,6 +33,20 @@ class PygameGame(object):
             screen.blit(mRoom,(10,10))
 
     def mouseReleased(self, x, y):
+        if self.ingr == None:
+            return
+        currFood = self.burger  #TODO generalize
+        currIngr = currFood.ingredients[-1]
+        r = currIngr.r
+        ingX = currIngr.x
+        ingY = currIngr.y
+        if ingX - r < x < ingX + r and ingY - r < y < ingY + r:
+            # drop it like it's hot
+            # make sure it's the right ingredient:
+            if currIngr == self.ingr:  # else you done fucked up
+                self.currFood.ingredients.append(self.ingr)
+            self.ingr = None
+            return
         self.ingr = None
 
     def mouseMotion(self, x, y):
@@ -38,13 +57,8 @@ class PygameGame(object):
             self.ingr = getIngrClick(x, y)
             if self.ingr == None:
                 return  # no ingr clicked on
-        currFood = self.burger
-        currIngr = self.currFood.ingredients[-1]
-        r = currIngr.r
-        ingX = currIngr.x
-        ingY = currIngr.y
-        if dragged to bun:
-            do stuff
+        self.toDraw[self.ingr] = (self.ingr, (x, y))
+        # self.ingr.draw(x, y)
 
 
     def keyPressed(self, keyCode, modifier):
@@ -57,7 +71,16 @@ class PygameGame(object):
         pass
 
     def redrawAll(self, screen):
-        pass
+        print(self.toDraw)
+        for item in self.toDraw:
+            print(item)
+            if not isinstance(self.toDraw[item], tuple):
+                # has its own draw function
+                item.draw()
+            else:
+                img = self.toDraw[item][0]
+                coords = self.toDraw[item][1]
+                screen.blit(img, coords)
 
     def isKeyPressed(self, key):
         ''' return whether a specific key is being held '''
@@ -83,7 +106,9 @@ class PygameGame(object):
 
         # call game-specific initialization
         self.init()
-        screen.blit(self.bkg,(0,0))
+        # screen.blit(self.bkg,(0,0))
+        self.toDraw[bkg] = (self.bkg,(0,0))  # NOT THE PROBLEM
+        print("should be a tuple: ", self.toDraw[bkg])
         playing = True
         while playing:
             time = clock.tick(self.fps)
