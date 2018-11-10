@@ -7,7 +7,8 @@ class PygameGame(object):
 
     def init(self):
         pygame.font.init()
-        self.burger = Food(["bun.png", "greaseblob.png", "patty.png", "mushroom.png",\
+        self.burger = Food(["bun.png", "greaseblob.png", "ketchupblob.png",\
+         "patty.png", "mushroom.png",\
          "cheese.png", "tomato.png", "fries.png", "lettuce.png"])
         self.currFood = self.burger
         self.state = "homeScreen"
@@ -71,7 +72,7 @@ class PygameGame(object):
             # getIngrClick(x, y)
             if self.ingr == None:
                 return  # no ingr clicked on
-        self.toDraw[self.ingr] = (self.ingr.name, (x, y))
+        self.toDraw[self.ingr] = (self.ingr.name, (x - 33, y - 33))
         # self.ingr.draw(x, y)
 
 
@@ -108,6 +109,8 @@ class PygameGame(object):
                 self.burger.draw()
                 self.burger.ingredients = [self.burger.recipe[0]]
                 self.burger.x = -100
+            scoretext = pygame.font.SysFont("monospace", 100).render("Score: " + str(self.score), 1, (0, 0, 0))
+            screen.blit(scoretext, (750, 90))
         # self.toDraw[self.ingr] = (self.ingr.name, (x, y))
         # draw draggable last:
         if self.ingr == None: return

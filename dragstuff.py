@@ -35,7 +35,7 @@ def IngredientclickedOn(event, data): # update the third to sixth ingredients w/
 
     elif 203 < pygame.mouse.get_pos()[0] < 256 and \
     260 < pygame.mouse.get_pos()[1] < 396:
-        return Ingredient("ketchup.png")
+        return Ingredient("ketchupblob.png")
 
 
     return None
