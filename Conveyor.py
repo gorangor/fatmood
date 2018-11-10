@@ -3,6 +3,7 @@ pygamegame.py
 created by Lukas Peraza
 '''
 import pygame
+from setup import *
 
 
 class PygameGame(object):
@@ -52,12 +53,13 @@ class PygameGame(object):
         screen = pygame.display.set_mode((self.width, self.height))
         # set the title of the window
         pygame.display.set_caption(self.title)
-
         # stores all the keys currently being held down
         self._keys = dict()
 
         # call game-specific initialization
         self.init()
+        screen.blit(gamebkg, (0,0))
+
         playing = True
         while playing:
             time = clock.tick(self.fps)
